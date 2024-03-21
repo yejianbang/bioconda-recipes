@@ -10,21 +10,24 @@ source:
   sha256: {{ sha256 }}
 
 build:
-  number: 6
+  number: 7
+  run_exports:
+    - {{ pin_subpackage("alignlib-lite", max_pin="x.x.x") }}  
   skip: True  # [py2k]
-  script: python -m pip install --no-deps --ignore-installed .
+  script: python setup.py install #-m pip install --no-deps --ignore-installed .
 
 requirements:
   build:
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
   host:
-    - python
+    - python <=3.7
     - pip
     - cython
     - boost-cpp
+    - libxcrypt
   run:
-    - python
+    - python <=3.7
 
 test:
   imports:
@@ -34,3 +37,7 @@ about:
   home: http://sourceforge.net/projects/alignlib/
   license: GPL-2.0-or-later
   summary: "Simple wrapper around alignlib C++ library for sequence alignment"
+
+extra:
+  additional-platforms:
+    - linux-aarch64
