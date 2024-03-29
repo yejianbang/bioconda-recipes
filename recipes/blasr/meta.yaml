@@ -1,17 +1,17 @@
 {% set name = "blasr" %}
 {% set version = "5.3.5" %}
-{% set sha256 = "87a56bd23015b16987c765272ec6c9688db706f37d3799a21f5bdd36e9c4e8b5" %}
+{% set sha256 = "006822e6964d9947c76d1b76430e1192ecb47941eef2ba49ebf137875e539d7d" %}
 
 package:
   name: {{ name }}
   version: {{ version }}
 
 source:
-  url: https://github.com/PacificBiosciences/{{ name }}/releases/download/{{ version }}/{{ name }}
+  url: https://github.com/BioinformaticsArchive/{{ name }}/archive/refs/heads/master.zip
   sha256: {{ sha256 }}
 
 about:
-  home: https://github.com/PacificBiosciences/blasr
+  home: https://github.com/BioinformaticsArchive/blasr
   license: BSD-3-Clause-Clear
   summary: BLASR - The PacBio long read aligner
 
@@ -23,9 +23,19 @@ extra:
     - should_be_noarch_generic
 
 build:
-  number: 1
+  number: 2
+  run_exports:
+    - {{ pin_subpackage("blasr", max_pin="x.x.x") }}  
   skip: True  # [osx]
 
+requirements:
+  build:
+    - gcc_linux-aarch64
+    - gxx_linux-aarch64
+    - {{ compiler('c') }}
+    - {{ compiler('cxx') }}
+    - make
+    
 test:
   commands:
-    - blasr --version
+    - blasr -h
