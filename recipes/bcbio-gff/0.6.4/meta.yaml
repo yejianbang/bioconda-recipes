@@ -11,9 +11,14 @@ source:
   sha256: {{ sha256 }}
 
 build:
-  number: 1
+  number: 2
+  run_exports:
+    - {{ pin_subpackage("bcbio-gff", max_pin="x.x.x") }}  
   noarch: python
-  script: "{{ PYTHON }} -m pip install . --no-deps --ignore-installed --no-cache-dir -vvv"
+  script: 
+    #Starting from Biopython version 1.79, the UnknownSeq class has been moved . This change was made to better organize the codebase and improve clarity. Therefore, if you're using a newer version of Biopython (1.79 or later), you should from Bio.Seq import Seq  instead of UnknownSeq.
+    - sed -i "32s/UnknownSeq/Seq/g" ./BCBio/GFF/GFFParser.py
+    - "{{ PYTHON }} -m pip install . --no-deps --ignore-installed --no-cache-dir -vvv"
   
 requirements:
   host:
