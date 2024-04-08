@@ -5,15 +5,20 @@ package:
   version: {{ version }}
 
 build:
-  number: 0
+  number: 1
   run_exports:
     - {{ pin_subpackage('csvtk', max_pin='x.x') }}
   
 source:
   - url: https://github.com/shenwei356/csvtk/releases/download/v{{ version }}/csvtk_darwin_amd64.tar.gz # [osx]
     md5: c415255e265ba0cd547806fdbda05652 # [osx]
-  - url: https://github.com/shenwei356/csvtk/releases/download/v{{ version }}/csvtk_linux_amd64.tar.gz # [linux]
-    md5: 8f5877d4fbea89609d64bd2679956476 # [linux]
+  {% if target_platform == "linux-aarch64" %}
+  url: https://github.com/shenwei356/csvtk/releases/download/v{{ version }}/csvtk_linux_arm64.tar.gz
+  md5: 2a6dd840291d23971ff538eaf3de00ec
+  {% elif target_platform == "linux-64" %}
+  url: https://github.com/shenwei356/csvtk/releases/download/v{{ version }}/csvtk_linux_amd64.tar.gz
+  md5: 8f5877d4fbea89609d64bd2679956476
+  {% endif %}
 
 test:
   commands:
@@ -28,3 +33,5 @@ extra:
   skip-lints:
     - should_be_noarch_generic
     - should_not_be_noarch_source
+  additional-platforms:
+    - linux-aarch64
