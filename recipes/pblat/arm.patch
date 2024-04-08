@@ -1,0 +1,46 @@
+diff -Nur pblat-2.5.1/lib/htmshell.c pblat-2.5.1_arm/lib/htmshell.c
+--- pblat-2.5.1/lib/htmshell.c	2024-04-08 11:25:09.068476030 +0800
++++ pblat-2.5.1_arm/lib/htmshell.c	2024-04-08 11:38:08.928476030 +0800
+@@ -17,7 +17,7 @@
+ #include "errAbort.h"
+ #include "dnautil.h"
+ #include "base64.h"
+-
++#include <stdbool.h>
+ 
+ jmp_buf htmlRecover;
+ 
+@@ -702,7 +702,7 @@
+ va_end(argscp);
+ }
+ 
+-void htmlVaBadRequestAbort(char *format, va_list args)
++void htmlVaBadRequestAbort1(char *format, va_list args, ...)
+ /* Print out an HTTP header 400 status code (Bad Request) and message, then exit with error.
+  * NOTE: This must be installed using pushWarnHandler (pushAbortHandler optional) because
+  * vaErrAbort calls vaWarn and then noWarnAbort.  So if the defaut warn handler is used, then
+@@ -711,11 +711,21 @@
+ puts("Status: 400\r");
+ puts("Content-Type: text/plain; charset=UTF-8\r");
+ puts("\r");
+-if (format != NULL && args != NULL)
+-    {
++bool args_initialized = false;
++
++if (format != NULL)
++{
++    va_start(args, format);
++    args_initialized = true;
++}
++
++if (args_initialized)
++{
+     vfprintf(stdout, format, args);
++    va_end(args);
+     fprintf(stdout, "\n");
+-    }
++}
++
+ exit(-1);
+ }
+ 
