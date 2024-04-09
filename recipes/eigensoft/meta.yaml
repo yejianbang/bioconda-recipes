@@ -14,7 +14,7 @@ source:
     - 0003-remove-wrong-cflag.patch  # [osx]
 
 build:
-  number: 4
+  number: 5
   run_exports:
     - {{ pin_subpackage('eigensoft', max_pin='x.x') }}
 
@@ -47,3 +47,5 @@ extra:
   identifiers:
     - biotools:Eigensoft
     - doi:10.1371/journal.pgen.0020190
+  additional-platforms:
+    - linux-aarch64
