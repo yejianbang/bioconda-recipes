@@ -13,7 +13,11 @@ if [[ "$(uname)" == Darwin ]]; then
     #   and you may need to use -headerpad or -headerpad_max_install_names)
     export LDFLAGS="$LDFLAGS -headerpad_max_install_names"
 fi
-
+if [ `uname -m` == "aarch64" ]; then
+	rm -rf config.guess config.sub
+	wget "http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.guess;hb=HEAD" -O config.guess
+	wget "http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.sub;hb=HEAD" -O config.sub
+fi
 ./configure --prefix=${PREFIX} --enable-pthreads
 make
 make install
