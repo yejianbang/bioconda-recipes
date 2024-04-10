@@ -7,7 +7,9 @@ package:
   version: {{ version }}
 
 build:
-  number: 3
+  number: 4
+  run_exports:
+    - {{ pin_subpackage("fastme", max_pin="x.x.x") }}  
 
 source:
   url: https://gite.lirmm.fr/atgc/FastME/-/archive/v2.1.6.1/FastME-v2.1.6.1.tar.gz
@@ -36,3 +38,5 @@ extra:
   identifiers:
     - biotools:fastme
     - doi:10.1093/molbev/msv150
+  additional-platforms:
+    - linux-aarch64
