@@ -1,5 +1,23 @@
 #!/bin/bash
 set -eu
+# Install libqualmath for linux-aarch64
+if [ `uname -m` == "aarch64" ];then
+ cd gcc/libquadmath
+ mkdir build
+ cd build
+ ../configure --prefix=${SRC_DIR}/gcc/libquadmath/install
+ make
+ cp .libs/libquadmath.a ${PREFIX}/lib/
+ cp .libs/libquadmath.so* ${PREFIX}/lib/
+ cp ../quadmath.h ${PREFIX}/include/
+ cp ../quadmath_weak.h ${PREFIX}/include/
+ cd ${SRC_DIR}
+ rm -rf gcc
+fi
+# Fix coredumperd caused by passing a wild pointer or released pointer when calling gsl_rng_free() in param.cpp
+if [ `uname -m` == "aarch64" ];then
+ sed -i "110s%^%//%g" src/param.cpp
+fi
 
 export C_INCLUDE_PATH=${PREFIX}/include
 export CPP_INCLUDE_PATH=${PREFIX}/include

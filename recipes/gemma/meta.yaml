@@ -5,18 +5,32 @@ package:
 
 # There are no OSX binaries yet, so just build on both platforms
 source:
-  url: https://github.com/genetics-statistics/GEMMA/archive/{{ version }}.tar.gz
-  sha256: 8c27874634269f52a194a41048e70c17e2128563f56bb8ef59338a93147c61ba
+  - url: https://github.com/genetics-statistics/GEMMA/archive/{{ version }}.tar.gz
+    sha256: 8c27874634269f52a194a41048e70c17e2128563f56bb8ef59338a93147c61ba
+# Install libqualmath for linux-aarch64
+  {% if target_platform == "linux-aarch64" %}
+  - url: https://ftp.gnu.org/gnu/gcc/gcc-13.2.0/gcc-13.2.0.tar.gz
+    sha256: 8cb4be3796651976f94b9356fa08d833524f62420d6292c5033a9a26af315078 
+    folder: gcc
+    patches: 
+     - arm.libquadmath.patch
+  {% endif %}
 
 build:
-  number: 1
+  number: 2
+  run_exports:
+    - {{ pin_subpackage("gemma", max_pin="x.x.x") }}
 
 requirements:
   build:
     - make
     - {{ compiler('cxx') }}
   host:
+    {% if target_platform == "linux-aarch64" %}
+    - gsl
+    {% else %}
     - gsl=1.16
+    {% endif %}
     - openblas
     - eigen
     - zlib
@@ -31,3 +45,7 @@ about:
   home: https://github.com/genetics-statistics/GEMMA
   license: GPLv3
   summary: Linear mixed models (LMMs) for genome-wide association (GWA)
+
+extra:
+  additional-platforms:
+    - linux-aarch64
