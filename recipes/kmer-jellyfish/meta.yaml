@@ -5,7 +5,7 @@ package:
   version: {{ version }}
 
 build:
-  number: 0
+  number: 1
   run_exports:
     - {{ pin_subpackage("kmer-jellyfish", max_pin="2.3.1") }}
 
@@ -33,3 +33,5 @@ extra:
   identifiers:
     - biotools:jellyfish
     - doi:10.1093/bioinformatics/btr011
+  additional-platforms:
+    - linux-aarch64
