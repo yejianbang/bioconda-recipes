@@ -10,7 +10,9 @@ source:
     - boophf.patch
 
 build:
-  number: 3
+  number: 4
+  run_exports:
+    - {{ pin_subpackage("gatb", max_pin="x.x.x") }}  
 
 requirements:
   build:
@@ -35,3 +37,7 @@ about:
   home: https://gatb.inria.fr/
   license: AGPL 3.0
   summary: The Genome Analysis Toolbox with de-Bruijn graph
+
+extra:
+  additional-platforms:
+    - linux-aarch64
