@@ -9,7 +9,9 @@ source:
     - makefile.patch
 
 build:
-  number: 4
+  number: 5
+  run_exports:
+    - {{ pin_subpackage("lordec", max_pin="x.x.x") }}  
 
 requirements:
   build:
@@ -17,12 +19,20 @@ requirements:
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
   host:
+    {% if target_platform == "linux-aarch64" %}
+    - gatb =1.4.2
+    {% else %}
     - gatb =1.4.1
+    {% endif %}
     - boost
     - hdf5
     - zlib
   run:
+    {% if target_platform == "linux-aarch64" %}
+    - gatb =1.4.2
+    {% else %}
     - gatb =1.4.1
+    {% endif %}
     - boost
     - hdf5
     - zlib
@@ -35,3 +45,7 @@ about:
   home: http://www.atgc-montpellier.fr/lordec/
   license: CeCILL A license
   summary: A hybrid error correction program for long, PacBio reads
+
+extra:
+  additional-platforms:
+    - linux-aarch64
