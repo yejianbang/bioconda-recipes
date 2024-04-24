@@ -8,12 +8,14 @@ package:
 source:
   url: https://maira.cs.uni-tuebingen.de/download/megan6/MEGAN_Community_unix_{{ version|replace(".", "_") }}.sh   # [linux]
   sha256: 09975351baff29e620d49f14145bde7840ec5d58828ba9ddf187c9ba54e46b4b   # [linux]
+  url: https://software-ab.cs.uni-tuebingen.de/download/megan6/MEGAN_Community_unix_ARM_{{ version|replace(".", "_") }}.sh   # [linux and aarch64]
+  sha256: f3f367b654e12a7fcf43ca881b6dea77408f65622b54905f6c0896c135d1999d   # [linux and aarch64]
 #   url: https://software-ab.informatik.uni-tuebingen.de/download/megan6/MEGAN_Community_macos_{{ version|replace(".", "_") }}.dmg   # [osx]
 #   sha256: dd843e823f358f496834a2034e1b638e9602ba83251a5f0542f20b0d22d7dc70   # [osx]
 
 build:
 #  detect_binary_files_with_prefix: true
-  number: 0
+  number: 1
   skip: True  # [osx]
   run_exports:
     - {{ pin_subpackage("megan", max_pin="x.x") }}
@@ -61,3 +63,5 @@ extra:
   skip-lints:
     - should_be_noarch_generic
     - should_not_be_noarch_source
+  additional-platforms:
+    - linux-aarch64
