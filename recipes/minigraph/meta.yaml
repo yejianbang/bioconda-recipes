@@ -9,7 +9,9 @@ source:
   sha256: ef695e69d57bbc34478d7d3007e4153422ee2e3534e4f3fcbb8930cfaa5e1dc0
 
 build:
-  number: 2
+  number: 3
+  run_exports:
+    - {{ pin_subpackage("minigraph", max_pin="x.x.x") }}  
 
 requirements:
   build:
@@ -31,3 +33,5 @@ about:
 extra:
   identifiers:
     - doi:10.1186/s13059-020-02168-z
+  additional-platforms:
+    - linux-aarch64
