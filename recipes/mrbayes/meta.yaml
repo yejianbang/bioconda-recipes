@@ -10,7 +10,9 @@ source:
   sha256: 64da39c01f606d0413ce90a1dd3c1ce2cbdef4cbad99aee8a4b2391a2e8db244
 
 build:
-  number: 6
+  number: 7
+  run_exports:
+    - {{ pin_subpackage("mrbayes", max_pin="x.x.x") }}  
 
 requirements:
   build:
@@ -19,12 +21,20 @@ requirements:
   host:
     - readline
     - openmpi
+    {% if target_platform == "linux-aarch64" %}
+    - beagle-lib
+    {% else %}
     - beagle-lib <4
+    {% endif %}
     - ncurses
   run:
     - readline
     - openmpi
+    {% if target_platform == "linux-aarch64" %}
+    - beagle-lib
+    {% else %}
     - beagle-lib <4
+    {% endif %}
     - ncurses
 
 test:
@@ -52,3 +62,5 @@ about:
 extra:
   identifiers:
     - biotools:mrbayes
+  additional-platforms:
+    - linux-aarch64
