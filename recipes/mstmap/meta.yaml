@@ -5,7 +5,9 @@ package:
   version: {{ version }}
 
 build:
-  number: 3
+  number: 4
+  run_exports:
+    - {{ pin_subpackage("mstmap", max_pin="x.x.x") }}  
 
 source:
   url: http://www.cs.ucr.edu/~stelo/pub/mstmap_v{{ version }}.tar.gz
@@ -32,3 +34,5 @@ extra:
   identifiers:
     - biotools:mstmap
     - doi:10.1371/journal.pgen.1000212
+  additional-platforms:
+    - linux-aarch64
