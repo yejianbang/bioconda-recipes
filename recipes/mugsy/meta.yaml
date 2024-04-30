@@ -3,14 +3,19 @@ package:
   version: 1.2.3
 
 source:
+  {% if target_platform == "linux-aarch64" %}
+  url: https://521github.com/kloetzl/mugsy/archive/refs/heads/master.zip
+  md5: 0dc56fedaec9117fcab576f6ba4365e6
+  {% else %}
   url: http://downloads.sourceforge.net/project/mugsy/mugsy_x86-64-v1r2.3.tgz
   md5: c4208cce45ff76f3fc7643764453617b
+  {% endif %}
   patches:
     - perl-env.patch
 
 build:
   noarch: generic
-  number: 5
+  number: 6
   run_exports:
     - {{ pin_subpackage('mugsy', max_pin="x") }}
 
