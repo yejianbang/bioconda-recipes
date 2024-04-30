@@ -11,7 +11,9 @@ source:
   sha256: {{ sha256 }}
 
 build:
-  number: 3
+  number: 4
+  run_exports:
+    - {{ pin_subpackage("nextdenovo", max_pin="x.x.x") }}  
   # repackages binaries
   skip: True  # [osx or py < 36]
 
